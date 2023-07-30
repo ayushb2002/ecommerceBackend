@@ -1,9 +1,8 @@
 const {
     Schema,
     model
-} = require("../db/connection") // import Schema & model
+} = require("../db/connection")
 
-// User Schema
 const CartSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
@@ -12,15 +11,15 @@ const CartSchema = new Schema({
     },
     items: [{
         item: {
-            type: Schema.Types.ObjectId,
-            ref: 'Item'
+            type: String,
+            required: true
         },
-        count: {
+        itemCount: {
             type: Number,
             required: true,
             default: 1
         },
-        cost: {
+        costPerItem: {
             type: Number,
             required: true
         }
@@ -35,7 +34,27 @@ const CartSchema = new Schema({
     }
 })
 
-// User model
+CartSchema.methods.deleteItemById = function (itemIdToDelete) {
+    var itemIndexToDelete = -1;
+    var i = 0;
+    this.items.forEach(itm => {
+        if (itm.item == itemIdToDelete) {
+            itemIndexToDelete = i;
+        } else {
+            i++;
+        }
+    });
+
+    if (itemIndexToDelete !== -1) {
+        this.items.splice(itemIndexToDelete, 1);
+    }
+
+    this.count = this.items.reduce((total, item) => total + item.itemCount, 0);
+    this.amount = this.items.reduce((total, item) => total + item.itemCount * item.costPerItem, 0);
+
+    return this.save();
+};
+
 const Cart = model("Cart", CartSchema);
 
 module.exports = Cart

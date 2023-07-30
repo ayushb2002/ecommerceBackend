@@ -2,7 +2,8 @@ const {Schema, model} = require("../db/connection") // import Schema & model
 const {Item} = require('./item')
 // User Schema
 const CategorySchema = new Schema({
-    _id: {type: String, required: true, unique: true},
+    _id: { type: String, required: true, unique: true },
+    type: {type: String, required: true, enum: ["product", "service"]},
     name: { type: String, required: true, unique: true},
     keywords: {type: String, default: ""}
 });
