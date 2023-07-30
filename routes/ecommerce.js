@@ -12,7 +12,8 @@ router.get("/", isLoggedIn, async (req, res) => {
         username
     } = req.user;
     res.json({
-        "loggedIn": true
+        "loggedIn": true,
+        "user": username
     });
 });
 

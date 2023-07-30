@@ -4,7 +4,7 @@ const {Schema, model} = require("../db/connection") // import Schema & model
 const CartSchema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     items: [
-        {type: Schema.Types.ObjectId, ref: 'Item', required: true}
+        {item: {type: Schema.Types.ObjectId, ref: 'Item'}, count: Number},
     ],
     count: { type: Number, required: true },
     amount: { type: Number, required: true }

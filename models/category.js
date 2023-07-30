@@ -2,8 +2,9 @@ const {Schema, model} = require("../db/connection") // import Schema & model
 
 // User Schema
 const CategorySchema = new Schema({
-    id: { type: String, required: true, unique: true },
-    name: { type: String, required: true }
+    _id: {type: String, required: true, unique: true},
+    name: { type: String, required: true, unique: true},
+    keywords: {type: String, default: ""}
 });
 
 // User model

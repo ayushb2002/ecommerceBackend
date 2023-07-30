@@ -7,23 +7,45 @@ const {
     SECRET = "secret"
 } = process.env;
 
-//Post Method
+router.get("/register", async (req, res) => {
+    res.status(200).json({
+        "Message": "Send name, username and password in a post request"
+    });
+});
+
 router.post('/register', async (req, res) => {
-    const { User } = req.context.models;
+    const { User, Cart } = req.context.models;
     try {
         req.body.password = await bcrypt.hash(req.body.password, 10);
         const user = new User({
             name: req.body.name,
-            email: req.body.email,
+            username: req.body.username,
             password: req.body.password
         });
         const saveUser = await user.save();
-        res.status(200).json(saveUser);
+
+        const cart = new Cart({
+            user: saveUser,
+            count: 0,
+            amount: 0
+        });
+
+        const saveCart = await cart.save();
+
+        res.status(200).json({
+            "message": "User created successfully!"
+        });
     } catch (err) {
         res.status(400).json({
             message: err.message
         });
     }
+});
+
+router.get("/login", async (req, res) => {
+    res.status(200).json({
+        "Message": "Send username and password in a post request"
+    });
 });
 
 router.post("/login", async (req, res) => {

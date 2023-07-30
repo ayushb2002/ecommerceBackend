@@ -2,6 +2,8 @@ require('dotenv').config();
 
 const authenticationRoutes = require('./routes/authentication');
 const ecommerceRoutes = require('./routes/ecommerce');
+const createRoutes = require('./routes/create');
+const fetchRoutes = require('./routes/fetch');
 const express = require('express');
 const morgan = require("morgan"); //import morgan
 const { log } = require("mercedlogger"); // import mercedlogger's log function
@@ -23,7 +25,9 @@ app.get("/", (req, res) => {
 
 app.use('/user', authenticationRoutes);
 app.use('/shop', ecommerceRoutes);
+app.use('/create', createRoutes);
+app.use('/fetch', fetchRoutes);
 
 app.listen(PORT, () => {
-    console.log(`Server Started at ${3000}`)
+    console.log(`Server Started at ${PORT}`)
 });
