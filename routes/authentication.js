@@ -33,7 +33,9 @@ router.post('/register', async (req, res) => {
         const cart = new Cart({
             user: saveUser,
             count: 0,
-            amount: 0
+            amount: 0,
+            tax: 0,
+            bill: 0
         });
 
         const saveCart = await cart.save();

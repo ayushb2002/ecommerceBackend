@@ -189,7 +189,9 @@ router.post("/emptyCart", isLoggedIn, async (req, res) => {
             const cart = new Cart({
                 user: user,
                 count: 0,
-                amount: 0
+                amount: 0,
+                tax: 0,
+                bill: 0
             });
     
             const saveCart = await cart.save();
