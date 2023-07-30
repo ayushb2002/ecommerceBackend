@@ -7,11 +7,17 @@ const fetchRoutes = require('./routes/fetch');
 const removeRoutes = require('./routes/remove');
 const express = require('express');
 const morgan = require("morgan"); //import morgan
-const { log } = require("mercedlogger"); // import mercedlogger's log function
+const {
+    log
+} = require("mercedlogger"); // import mercedlogger's log function
 const cors = require("cors");
-const {createContext} = require("./routes/middleware")
+const {
+    createContext
+} = require("./routes/middleware")
 
-const { PORT = 3000 } = process.env;
+const {
+    PORT = 3000
+} = process.env;
 
 const app = express();
 

@@ -52,3 +52,8 @@ the system for.
 <br />
 
 <b>Note: </b> Use an appropriate database to handle the problem.
+
+## Instructions
+
+* Admin username - admin@plotline.com
+* Admin password - admin

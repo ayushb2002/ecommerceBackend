@@ -4,7 +4,7 @@ const {
 } = require("../db/connection") // import Schema & model
 
 // User Schema
-const CartSchema = new Schema({
+const OrderSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
@@ -24,7 +24,7 @@ const CartSchema = new Schema({
             type: Number,
             required: true
         }
-    }],
+    },],
     count: {
         type: Number,
         required: true
@@ -32,10 +32,18 @@ const CartSchema = new Schema({
     amount: {
         type: Number,
         required: true
+    },
+    placed: {
+        type: Date,
+        required: true
+    },
+    payment: {
+        type: String,
+        required: true
     }
-})
+});
 
 // User model
-const Cart = model("Cart", CartSchema);
+const Order = model("Order", OrderSchema);
 
-module.exports = Cart
+module.exports = Order

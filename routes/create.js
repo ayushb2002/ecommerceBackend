@@ -27,7 +27,7 @@ router.post("/category", isLoggedIn, async (req, res) => {
 
         const category = new Category({
             _id: req.body.categoryId,
-            name: req.body.categoryName, 
+            name: req.body.categoryName,
             keywords: req.body.categoryKeyword
         });
 
