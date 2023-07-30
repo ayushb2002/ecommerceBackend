@@ -1,5 +1,4 @@
 <h1> Plotline Backend Assignment </h1>
-<br />
 
 ## Instructions
 
@@ -49,3 +48,7 @@ value of selected items)
 * Additional API for admin to see all the orders.
 * Appropriate test cases to simulate practical scenarios that you would want to test
 the system for.
+
+<br />
+
+<b>Note: </b> Use an appropriate database to handle the problem.
