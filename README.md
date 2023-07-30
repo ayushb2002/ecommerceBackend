@@ -28,7 +28,7 @@ rules:
 
 <br />
 
-## Must Haves
+### Must Haves
 
 <br />
 
@@ -44,7 +44,7 @@ value of selected items)
 
 <br />
 
-## Good to have <br />
+### Good to have <br />
 * Additional API for admin to see all the orders.
 * Appropriate test cases to simulate practical scenarios that you would want to test
 the system for.

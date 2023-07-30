@@ -1,25 +1,29 @@
 require('dotenv').config();
 
-const routes = require('./routes/routes');
+const authenticationRoutes = require('./routes/authentication');
+const ecommerceRoutes = require('./routes/ecommerce');
 const express = require('express');
-const mongoose = require('mongoose');
-const mongoString = process.env.MONGO_URL;
+const morgan = require("morgan"); //import morgan
+const { log } = require("mercedlogger"); // import mercedlogger's log function
+const cors = require("cors");
+const {createContext} = require("./routes/middleware")
 
-mongoose.connect(mongoString);
-const database = mongoose.connection;
+const { PORT = 3000 } = process.env;
 
-database.on('error', (error) => {
-    console.log(error)
-})
-
-database.once('connected', () => {
-    console.log('Database Connected');
-})
 const app = express();
 
-app.use(express.json());
-app.use('/api', routes);
+app.use(cors()); // add cors headers
+app.use(morgan("tiny")); // log the request for debugging
+app.use(express.json()); // parse json bodies
+app.use(createContext) // create req.context
 
-app.listen(3000, () => {
+app.get("/", (req, res) => {
+    res.send("this is the test route to make sure server is working")
+});
+
+app.use('/user', authenticationRoutes);
+app.use('/shop', ecommerceRoutes);
+
+app.listen(PORT, () => {
     console.log(`Server Started at ${3000}`)
-})
+});
