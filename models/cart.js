@@ -22,6 +22,10 @@ const CartSchema = new Schema({
         costPerItem: {
             type: Number,
             required: true
+        },
+        taxPerItem: {
+            type: Number, 
+            required: true
         }
     }],
     count: {
@@ -29,6 +33,14 @@ const CartSchema = new Schema({
         required: true
     },
     amount: {
+        type: Number,
+        required: true
+    }, 
+    tax: {
+        type: Number,
+        required: true
+    },
+    bill: {
         type: Number,
         required: true
     }
@@ -51,7 +63,9 @@ CartSchema.methods.deleteItemById = function (itemIdToDelete) {
 
     this.count = this.items.reduce((total, item) => total + item.itemCount, 0);
     this.amount = this.items.reduce((total, item) => total + item.itemCount * item.costPerItem, 0);
-
+    this.tax = this.items.reduce((total, item) => total + item.taxPerItem*item.itemCount, 0);
+    this.bill = this.amount + this.tax;
+    
     return this.save();
 };
 

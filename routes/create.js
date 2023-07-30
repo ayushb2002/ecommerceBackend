@@ -7,6 +7,44 @@ const {
 
 const router = Router();
 
+const productTax = {
+    "PA": 0.12,
+    "PB": 0.18,
+    "PC": 200
+}
+
+const serviceTax = {
+    "SA": 0.10,
+    "SB": 0.15,
+    "SC": 100
+}
+
+function calculateTax(categoryType, price)
+{
+    if (categoryType == "product")
+    {
+        if (price > 1000 && price <= 5000)
+            return (productTax.PA * price + productTax.PC);
+        else if (price > 5000)
+            return (productTax.PB * price + productTax.PC);
+        else
+            return productTax.PC;
+    }
+    else if (categoryType == "service")
+    {
+        if (price > 1000 && price <= 8000)
+            return (serviceTax.PA * price + serviceTax.PC);
+        else if (price > 8000)
+            return (serviceTax.PB * price + serviceTax.PC);
+        else
+            return serviceTax.PC;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
 router.post("/category", isLoggedIn, async (req, res) => {
     try {
         const {
@@ -28,6 +66,7 @@ router.post("/category", isLoggedIn, async (req, res) => {
         const category = new Category({
             _id: req.body.categoryId,
             name: req.body.categoryName,
+            type: req.body.categoryType,
             keywords: req.body.categoryKeyword
         });
 
@@ -78,7 +117,8 @@ router.post("/item", isLoggedIn, async (req, res) => {
             name: req.body.itemName,
             description: req.body.itemDescription,
             price: req.body.itemPrice,
-            category: category
+            category: category,
+            tax: calculateTax(category.type, req.body.itemPrice)
         });
 
         const saveItem = await item.save();

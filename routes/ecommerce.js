@@ -50,7 +50,8 @@ router.post("/addItem", isLoggedIn, async (req, res) => {
         const _item = {
             item: item._id,
             itemCount: req.body.count,
-            costPerItem: item.price
+            costPerItem: item.price,
+            taxPerItem: item.taxPerItem
         };
 
         Cart.findOne({
@@ -65,7 +66,9 @@ router.post("/addItem", isLoggedIn, async (req, res) => {
 
             cart.items.push(_item);
             cart.count = cart.items.length;
-            cart.amount += (req.body.count * item.price);
+            cart.amount += (req.body.count * _item.costPerItem);
+            cart.tax += (req.body.count * _item.taxPerItem);
+            cart.bill = cart.amount + cart.tax;
             cart.save().then((savedCart) => {
                     console.log(savedCart);
                 })
@@ -118,7 +121,9 @@ router.get("/fetchCart", isLoggedIn, async (req, res) => {
             "name": name,
             "items": cart.items,
             "numberOfUniqueItems": cart.count,
-            "billWithoutTaxes": cart.amount
+            "billWithoutTaxes": cart.amount,
+            "totalTaxes": cart.tax,
+            "billWithTaxes": cart.bill
         });
     } catch (err) {
         res.status(400).json({
