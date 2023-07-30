@@ -9,11 +9,12 @@ const router = Router();
 
 router.get("/", isLoggedIn, async (req, res) => {
     const {
-        username
+        username, isAdmin
     } = req.user;
     res.json({
         "loggedIn": true,
-        "user": username
+        "user": username,
+        "admin": isAdmin
     });
 });
 

@@ -7,7 +7,8 @@ const {
 
 const router = Router();
 
-router.get("/categories", isLoggedIn, async (req, res) => {
+router.get("/allCategories", isLoggedIn, async (req, res) => {
+
     const { Category } = req.context.models;
 
     try {

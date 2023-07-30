@@ -10,8 +10,16 @@ const router = Router();
 router.post("/category", isLoggedIn, async (req, res) => {
     try {
         const {
-            username
+            username,
+            isAdmin
         } = req.user;
+
+        if (!isAdmin) {
+            res.status(400).json({
+                "error": "Operation not allowed"
+            });
+            return;
+        }
 
         const {
             Category
@@ -19,7 +27,8 @@ router.post("/category", isLoggedIn, async (req, res) => {
 
         const category = new Category({
             _id: req.body.categoryId,
-            name: req.body.categoryName
+            name: req.body.categoryName, 
+            keywords: req.body.categoryKeyword
         });
 
         const saveCategory = await category.save();
@@ -38,18 +47,29 @@ router.post("/category", isLoggedIn, async (req, res) => {
 router.post("/item", isLoggedIn, async (req, res) => {
     try {
         const {
-            username
+            username,
+            isAdmin
         } = req.user;
+
+        if (!isAdmin) {
+            res.status(400).json({
+                "error": "Operation not allowed"
+            });
+            return;
+        }
 
         const {
             Category,
             Item
         } = req.context.models;
 
-        const category = await Category.findOne({ _id: req.body.categoryId })
-        if (!category)
-        {
-            res.status(404).json({ "error": "Category not found" });
+        const category = await Category.findOne({
+            _id: req.body.categoryId
+        })
+        if (!category) {
+            res.status(404).json({
+                "error": "Category not found"
+            });
             return;
         }
 

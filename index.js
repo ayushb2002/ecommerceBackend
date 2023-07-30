@@ -4,6 +4,7 @@ const authenticationRoutes = require('./routes/authentication');
 const ecommerceRoutes = require('./routes/ecommerce');
 const createRoutes = require('./routes/create');
 const fetchRoutes = require('./routes/fetch');
+const removeRoutes = require('./routes/remove');
 const express = require('express');
 const morgan = require("morgan"); //import morgan
 const { log } = require("mercedlogger"); // import mercedlogger's log function
@@ -27,6 +28,7 @@ app.use('/user', authenticationRoutes);
 app.use('/shop', ecommerceRoutes);
 app.use('/create', createRoutes);
 app.use('/fetch', fetchRoutes);
+app.use('/remove', removeRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server Started at ${PORT}`)
