@@ -12,19 +12,23 @@ const OrderSchema = new Schema({
     },
     items: [{
         item: {
-            type: Schema.Types.ObjectId,
-            ref: 'Item'
+            type: String,
+            required: true
         },
-        count: {
+        itemCount: {
             type: Number,
             required: true,
             default: 1
         },
-        cost: {
+        costPerItem: {
+            type: Number,
+            required: true
+        },
+        taxPerItem: {
             type: Number,
             required: true
         }
-    },],
+    }],
     count: {
         type: Number,
         required: true
@@ -33,11 +37,15 @@ const OrderSchema = new Schema({
         type: Number,
         required: true
     },
-    placed: {
-        type: Date,
+    tax: {
+        type: Number,
         required: true
     },
-    payment: {
+    bill: {
+        type: Number,
+        required: true
+    },
+    paymentMethod: {
         type: String,
         required: true
     }

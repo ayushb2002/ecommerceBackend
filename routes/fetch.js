@@ -23,13 +23,28 @@ router.get("/allCategories", isLoggedIn, async (req, res) => {
     }
 });
 
-router.get("/items", isLoggedIn, async (req, res) => {
-    const { Item, Category } = req.context.models;
+router.get("/categories", isLoggedIn, async (req, res) => {
+
+    const { Category } = req.context.models;
 
     try {
-        const category = await Category.find({ name: req.body.categoryName });
-        const allItems = await Item.find({category: category});
-        res.status(200).json(allItems);
+        const categories = await Category.findOne({_id: req.body.categoryId});
+        res.status(200).json(categories);
+    }
+    catch (err)
+    {
+        res.status(400).json({
+            error: err.message
+        });
+    }
+});
+
+router.get("/items", isLoggedIn, async (req, res) => {
+    const { Item } = req.context.models;
+
+    try {
+        const items = await Item.findOne({_id: req.body.itemId});
+        res.status(200).json(items);
     }
     catch (err)
     {

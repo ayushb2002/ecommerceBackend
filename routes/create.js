@@ -7,42 +7,28 @@ const {
 
 const router = Router();
 
-const productTax = {
-    "PA": 0.12,
-    "PB": 0.18,
-    "PC": 200
-}
-
-const serviceTax = {
-    "SA": 0.10,
-    "SB": 0.15,
-    "SC": 100
-}
-
 function calculateTax(categoryType, price)
 {
     if (categoryType == "product")
     {
-        if (price > 1000 && price <= 5000)
-            return (productTax.PA * price + productTax.PC);
-        else if (price > 5000)
-            return (productTax.PB * price + productTax.PC);
+        if (price > 1000.00 && price <= 5000.00)
+            return 0.12 * price + 200;
+        else if (price > 5000.00)
+            return 0.18 * price + 200;
         else
-            return productTax.PC;
+            return 200;
     }
     else if (categoryType == "service")
     {
-        if (price > 1000 && price <= 8000)
-            return (serviceTax.PA * price + serviceTax.PC);
-        else if (price > 8000)
-            return (serviceTax.PB * price + serviceTax.PC);
+        if (price > 1000.00 && price <= 8000.00)
+            return 0.1 * price + 100;
+        else if (price > 8000.00)
+            return 0.15 * price + 100;
         else
-            return serviceTax.PC;
+            return 100;
     }
-    else
-    {
-        return 0;
-    }
+
+    return 0;
 }
 
 router.post("/category", isLoggedIn, async (req, res) => {

@@ -13,7 +13,6 @@ CategorySchema.pre('remove', (next) => {
     next();
 });
 
-// User model
-const Category = model("Category", CategorySchema)
+const Category = model("Category", CategorySchema);
 
 module.exports = Category

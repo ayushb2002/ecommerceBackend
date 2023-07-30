@@ -51,7 +51,7 @@ router.post("/addItem", isLoggedIn, async (req, res) => {
             item: item._id,
             itemCount: req.body.count,
             costPerItem: item.price,
-            taxPerItem: item.taxPerItem
+            taxPerItem: item.tax
         };
 
         Cart.findOne({
@@ -203,6 +203,63 @@ router.post("/emptyCart", isLoggedIn, async (req, res) => {
         res.status(200).json({ "success": true })
     }
     catch (err) {
+        res.status(400).json({"error": err.message});
+    }
+});
+
+router.post("/checkout", isLoggedIn, async (req, res) => {
+    const {
+        username,
+        name,
+        isAdmin
+    } = req.user;
+
+    try {
+        const {
+            User,
+            Cart,
+            Order
+        } = req.context.models;
+
+        const user = await User.findOne({
+            username: username
+        });
+        
+        const cartData = await Cart.findOne({ user: user });
+
+        const order = new Order({
+            user: cartData.user,
+            items: cartData.items,
+            count: cartData.count,
+            amount: cartData.amount,
+            tax: cartData.tax,
+            bill: cartData.bill,
+            paymentMethod: req.body.paymentMethod
+        });
+
+        const saveOrder = await order.save();
+
+        Cart.deleteOne({ user: user }).then(async () => {
+            const cart = new Cart({
+                user: user,
+                count: 0,
+                amount: 0,
+                tax: 0,
+                bill: 0
+            });
+    
+            const saveCart = await cart.save();
+            console.log(saveCart);
+
+        }).catch(err => {
+            console.error(err);
+            res.status(400).json({ "error": err.message });
+        });
+
+        res.status(200).json(saveOrder);
+    }
+    catch (err) {
+        console.error(err);
         res.status(400).json({"error": err.message});
     }
 });
