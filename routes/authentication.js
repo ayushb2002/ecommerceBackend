@@ -2,9 +2,7 @@ const express = require('express');
 const bcrypt = require("bcryptjs"); // import bcrypt to hash passwords
 const jwt = require("jsonwebtoken"); // import jwt to sign tokens
 const router = express.Router()
-const {
-    isLoggedIn
-} = require("./middleware");
+
 const {
     SECRET = "secret"
 } = process.env;
@@ -85,44 +83,6 @@ router.post("/login", async (req, res) => {
         } else {
             res.status(400).json({
                 error: "User doesn't exist!"
-            });
-        }
-    } catch (error) {
-        res.status(400).json({
-            error: error.message
-        });
-    }
-});
-
-router.post("/promote", isLoggedIn, async (req, res) => {
-    try {
-        const {
-            currentUser
-        } = req.user;
-        const {
-            User
-        } = req.context.models;
-        const user = await User.findOne({
-            username: currentUser
-        });
-        if (user.isAdmin) {
-            await User.findOneAndUpdate({
-                "username": req.body.username
-            }, {
-                "isAdmin": true
-            }, {
-                upsert: true
-            }, (err, doc) => {
-                if (err) return res.send(500, {
-                    error: err
-                });
-                return res.status(200).json({
-                    "message": "Successfully promoted!"
-                });
-            })
-        } else {
-            res.status(400).json({
-                error: "Not allowed!"
             });
         }
     } catch (error) {
