@@ -3,7 +3,7 @@ const mongoose = require("mongoose") //import fresh mongoose object
 const {log} = require("mercedlogger") // import merced logger
 
 //DESTRUCTURE ENV VARIABLES
-const {MONGO_URL} = process.env 
+const MONGO_URL = process.env.MONGO_URL; 
 
 // CONNECT TO MONGO
 mongoose.connect = mongoose.connect(MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true})

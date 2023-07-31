@@ -3,9 +3,7 @@ const bcrypt = require("bcryptjs"); // import bcrypt to hash passwords
 const jwt = require("jsonwebtoken"); // import jwt to sign tokens
 const router = express.Router()
 
-const {
-    SECRET = "secret"
-} = process.env;
+const SECRET = process.env.SECRET || "secret";
 
 router.get("/register", async (req, res) => {
     res.status(200).json({
