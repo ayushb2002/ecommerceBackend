@@ -1,9 +1,8 @@
 const {
     Schema,
     model
-} = require("../db/connection") // import Schema & model
+} = require("../db/connection") 
 
-// User Schema
 const OrderSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,

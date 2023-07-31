@@ -103,7 +103,7 @@ router.post("/item", isLoggedIn, async (req, res) => {
             name: req.body.itemName,
             description: req.body.itemDescription,
             price: req.body.itemPrice,
-            category: category,
+            category: category._id,
             tax: calculateTax(category.type, req.body.itemPrice)
         });
 
