@@ -75,7 +75,7 @@ router.get("/itemsByCategory", isLoggedIn, async (req, res) => {
             return;
         }
         const items = await Item.find({
-            category: category._id
+            category: req.body.categoryId
         });
         res.status(200).json(items);
     } catch (err) {

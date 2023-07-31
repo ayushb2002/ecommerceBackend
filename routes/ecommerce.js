@@ -8,7 +8,7 @@ const Cart = require("../models/cart");
 
 const router = Router();
 
-router.get("/", isLoggedIn, async (req, res) => {
+router.get("/profile", isLoggedIn, async (req, res) => {
     const {
         username,
         name,
