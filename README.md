@@ -57,3 +57,8 @@ the system for.
 
 * Admin username - admin@plotline.com
 * Admin password - admin
+
+### API Documentation 
+
+View POSTMAN API documentation <a href="https://documenter.getpostman.com/view/26352076/2s9XxtybMP"> here </a>. <br />
+Use the API endpoints on the following URL - 
