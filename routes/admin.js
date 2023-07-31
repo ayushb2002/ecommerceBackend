@@ -8,16 +8,26 @@ const {
 const router = Router();
 
 router.get("/orders", isLoggedIn, async (req, res) => {
-    const { Order } = req.context.models;
-
-    try {
-        const allOrders = await Order.find({});
-        res.status(200).json(allOrders);
-    }
-    catch (err)
-    {
-        res.status(400).json({
-            error: err.message
+    const {
+        Order
+    } = req.context.models;
+    const {
+        username,
+        isAdmin,
+        name
+    } = req.user;
+    if (isAdmin) {
+        try {
+            const allOrders = await Order.find({});
+            res.status(200).json(allOrders);
+        } catch (err) {
+            res.status(400).json({
+                error: err.message
+            });
+        }
+    } else {
+        res.status(404).json({
+            "error": "Operation not allowed!"
         });
     }
 });
@@ -25,29 +35,25 @@ router.get("/orders", isLoggedIn, async (req, res) => {
 router.post("/promote", isLoggedIn, async (req, res) => {
     try {
         const {
-            currentUser
+            username,
+            isAdmin,
+            name
         } = req.user;
         const {
             User
         } = req.context.models;
-        const user = await User.findOne({
-            username: currentUser
-        });
-        if (user.isAdmin) {
+
+        if (isAdmin) {
             await User.findOneAndUpdate({
                 "username": req.body.username
             }, {
                 "isAdmin": true
             }, {
                 upsert: true
-            }, (err, doc) => {
-                if (err) return res.send(500, {
-                    error: err
-                });
-                return res.status(200).json({
-                    "message": "Successfully promoted!"
-                });
-            })
+            });
+            return res.status(200).json({
+                "message": "Successfully promoted!"
+            });
         } else {
             res.status(400).json({
                 error: "Not allowed!"
