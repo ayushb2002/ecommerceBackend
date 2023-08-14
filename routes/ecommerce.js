@@ -218,7 +218,8 @@ router.post("/checkout", isLoggedIn, async (req, res) => {
         const {
             User,
             Cart,
-            Order
+            Order,
+            Address
         } = req.context.models;
 
         const user = await User.findOne({
@@ -226,6 +227,7 @@ router.post("/checkout", isLoggedIn, async (req, res) => {
         });
         
         const cartData = await Cart.findOne({ user: user });
+        const address = await Address.findOne({ user: user });
 
         const order = new Order({
             user: cartData.user,
@@ -234,6 +236,7 @@ router.post("/checkout", isLoggedIn, async (req, res) => {
             amount: cartData.amount,
             tax: cartData.tax,
             bill: cartData.bill,
+            address: address,
             paymentMethod: req.body.paymentMethod
         });
 

@@ -5,6 +5,7 @@ const Cart = require("../models/cart");
 const Category = require("../models/category");
 const Item = require("../models/item");
 const Order = require("../models/order");
+const Address = require("../models/address");
 // CREATE CONTEXT MIDDLEWARE
 const createContext = (req, res, next) => {
     // put any data you want in the object below to be accessible to all routes
@@ -14,7 +15,8 @@ const createContext = (req, res, next) => {
             Category,
             Item,
             Cart,
-            Order
+            Order,
+            Address
         },
     };
     next();

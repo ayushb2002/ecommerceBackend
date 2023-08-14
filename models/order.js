@@ -44,9 +44,19 @@ const OrderSchema = new Schema({
         type: Number,
         required: true
     },
+    address: {
+        type: Schema.Types.ObjectId,
+        ref: 'Address',
+        required: true
+    },
     paymentMethod: {
         type: String,
         required: true
+    },
+    completed: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 });
 

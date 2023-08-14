@@ -2,6 +2,9 @@ const express = require('express');
 const bcrypt = require("bcryptjs"); // import bcrypt to hash passwords
 const jwt = require("jsonwebtoken"); // import jwt to sign tokens
 const router = express.Router()
+const {
+    isLoggedIn
+} = require("./middleware");
 
 const SECRET = process.env.SECRET || "secret";
 
@@ -94,6 +97,80 @@ router.get("/login", async (req, res) => {
     res.status(200).json({
         "Message": "Send username and password in a post request"
     });
+});
+
+router.post("/address", isLoggedIn, async (req, res) => {
+    const {
+        username,
+        name,
+        isAdmin
+    } = req.user;
+
+    const {
+        User,
+        Address
+    } = req.context.models;
+
+    try {
+        const user = await User.findOne({
+            username: username
+        });
+
+        const address = new Address({
+            user: user,
+            firstLine: req.body.firstLine,
+            secondLine: req.body.secondLine,
+            city: req.body.city,
+            state: req.body.state,
+            pincode: req.body.pincode
+        });
+
+        const saveAddress = await address.save();
+
+        res.status(200).json({
+            "message": "Successfully saved address!"
+        });
+    } catch (error) {
+        res.status(400).json({
+            error: error.message
+        });
+    }
+
+});
+
+router.get("/address", isLoggedIn, async (req, res) => {
+    const {
+        username,
+        name,
+        isAdmin
+    } = req.user;
+
+    const {
+        User,
+        Address
+    } = req.context.models;
+
+    try {
+        const user = await User.findOne({
+            username: username
+        });
+
+        const address = await Address.findOne({
+            user: user
+        });
+
+        if (address) {
+            res.status(200).json(address);
+        } else {
+            res.status(200).json({
+                "message": "No previously saved address found."
+            });
+        }
+    } catch (error) {
+        res.status(400).json({
+            error: error.message
+        });
+    }
 });
 
 module.exports = router;
